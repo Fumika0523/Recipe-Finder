@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>data.meals vs meals vs meal Demo</title>
+</head>
+<body>
+  <h2>Open Console → See the difference</h2>
+  <script>
+    console.log("✅ JS Connected");
+
+    // Simulate API data (same shape as TheMealDB)
+    const data = {
+      meals: [
+        { strMeal: "🍛 Chicken Curry", strCategory: "Asian" },
+        { strMeal: "🍝 Spaghetti Bolognese", strCategory: "Italian" },
+        { strMeal: "🥗 Caesar Salad", strCategory: "Healthy" }
+      ]
+    };
+
+    console.log("1️⃣ Full data object:", data);
+    console.log("2️⃣ data.meals (array):", data.meals);
+
+    // Pass only data.meals to another function
+    showSuggestions(data.meals);
+
+    // Function that receives the array only
+    function showSuggestions(meals) {
+      console.log("3️⃣ Inside showSuggestions, meals =", meals);
+
+      // Now loop through and see each single meal
+      meals.forEach((meal, index) => {
+        console.log(`   🔹 Meal #${index + 1}:`, meal);
+        console.log(`      Name: ${meal.strMeal}`);
+        console.log(`      Category: ${meal.strCategory}`);
+      });
+
+      // ❌ Uncomment below to see the error
+      // console.log(data.meals); // ReferenceError: data is not defined (because data doesn't exist here)
+    }
+  </script>
+</body>
+</html>

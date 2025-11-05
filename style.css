@@ -239,3 +239,25 @@ body {
   justify-content: flex-end;
   padding-right: 20px;
 }
+
+.recent-searches{
+  border:2px solid red;
+  margin:10px 0px
+}
+
+.search-tag {
+  display: inline-block;
+  background-color: var(--accent-color);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 8px;
+  margin: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.search-tag:hover {
+  transform: scale(1.05);
+  background-color: #ff7a1a;
+}

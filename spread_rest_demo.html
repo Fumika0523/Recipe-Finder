@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>JS ...args Demo</title>
+</head>
+<body>
+  <h2>Open your Console → and click the button 👇</h2>
+  <button id="demoBtn">Run ...args demo</button>
+
+  <script>
+    console.log(" JS is connected — ready for the demo");
+
+    // 1️ Function using the REST operator (...args)
+    function showAll(...args) {
+      console.log("STEP 1️: Collected args as array:", args);
+
+      // 2️ Spread these args into another function
+      logIndividually(...args);
+    }
+
+    // 3️ A function that takes 3 separate parameters
+    function logIndividually(...values) {
+      console.log("STEP 2️: Spread back into separate values:");
+    //   console.log("a →", a);
+    //   console.log("b →", b);
+    //   console.log("c →", c);
+       console.log("d →", ...values);
+    }
+
+    // 4️ Trigger the function with multiple values
+    document.getElementById("demoBtn").addEventListener("click", () => {
+      console.clear();
+      console.log("🧠 Clicked! Let's see how ...args works step-by-step ↓");
+      showAll("🍎 Apple", "🍌 Banana", "🍓 Strawberry","Pineapple");
+      
+    });
+  </script>
+</body>
+</html>

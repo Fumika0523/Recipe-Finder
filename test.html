@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Debounce Test</title>
+</head>
+<body>
+  <input id="testInput" type="text" placeholder="Type fast here..." />
+  <script>
+    console.log(" Debounce test started");
+
+    let timeout; // shared timer
+    //The ...args syntax lets my debounce wrapper handle any function with any number of arguments — it collects them into an array, and later spreads them back when calling the delayed function. This way, debounce works universally — not just for one specific input type.
+    function debounce(fn, delay) {
+        //gather all given arguments into array
+      return (...args) => {
+        console.log(" Typing detected...");
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          console.log(" Timeout finished → running function now");
+          // spread the array back out into individual arguments
+          fn(...args);
+        }, delay);
+      };
+    }
+
+    function testFunction(value) {
+      console.log("API called with:", value);
+    }
+
+    const debouncedFn = debounce(testFunction, 5000); // wait xx second
+
+    const input = document.getElementById("testInput");
+    input.addEventListener("keyup", (e) => {
+      debouncedFn(e.target.value);
+    });
+  </script>
+</body>
+</html>
