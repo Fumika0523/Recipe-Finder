@@ -1,21 +1,72 @@
+/* ================================
+   🌈 Base Theme Variables
+================================= */
+:root {
+  --bg-color: linear-gradient(to bottom right, #fffbe8, #ffeec2);
+  --text-color: #222;
+  --card-bg: #ffffff;
+  --accent-color: #f9b108ff;
+  --accent-hover: #ff7a1a;
+  --primary-color:black;
+  --secondary-color: #ff7a1a; 
+  --tag-bg: #fdebc5ff;
+  --tag-hover: #ffd446ff;
+  --suggestion-bg: #fbf8f1ff;
+  --suggestion-bg-hover: #faeac0ff;
+}
+
+/* ================================
+   🌙 Dark Theme Variables
+================================= */
+[data-theme="dark"] {
+  --primary-color:#ffc107;
+  --secondary-color: #e1c692ff; 
+  --bg-color: #1c1c19ff;
+  --text-color: #b1b1b2ff; 
+  --card-bg: #282825ff;
+  --accent-color: linear-gradient(135deg, #ffb347, #ffd27f);
+  --accent-hover: #ffd27f;
+  --tag-bg: #343430ff;
+  --tag-hover: #ffc107;
+  --suggestion-bg: #2c2c2bff;
+  --suggestion-bg-hover: #525251ff;
+}
+
+
+/* ================================
+   🌸 Global Styles
+================================= */
+
+.container {
+height:100vh;
+/* border:2px solid red; */
+overflowY:hidden;
+}
+
 body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
+  /* border:2px solid blue; */
   padding: 0;
-  color: #333;
+  background: var(--bg-color);
+  color: var(--text-color);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 header, footer {
   text-align: center;
-  margin: 20px 0;
+  /* border:2px solid blue; */
+  /* margin: 20px 0; */
 }
 
 footer {
-  text-align:center;
   margin-top: 40px;
   position: static;
 }
 
+/* ================================
+   🔍 Search Section
+================================= */
 #search-section {
   display: flex;
   flex-direction: column;
@@ -28,9 +79,8 @@ footer {
   width: 80%;
   max-width: 400px;
   padding: 10px;
-  border:2px solid  rgba(84, 78, 74, 0.4);
+  border: 2px solid rgba(84, 78, 74, 0.4);
   border-radius: 10px;
-  /* border: 1px solid #ccc; */
   font-size: 15px;
   outline: none;
   transition: box-shadow 0.2s ease;
@@ -40,62 +90,61 @@ footer {
   box-shadow: 0 0 8px rgba(255, 145, 77, 0.4);
 }
 
-/* Suggestions dropdown */
+/* Suggestions Dropdown */
 #suggestions {
+  /* outline: 3px solid red !important; */
   position: absolute;
-  background: var(--card-bg);
-  border: 1px solid var(--accent-color);
+  background: var(--suggestion-bg);
   width: 80%;
   max-width: 400px;
   top: 50px;
   border-radius: 8px;
   z-index: 10;
+
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-
 .suggestion-item {
-  padding: 10px 15px;
+  display: block;
+  padding: 10px 15px !important;
   cursor: pointer;
+  font-weight: bold; /* ✅ correct syntax */
   color: var(--text-color);
-  transition: background 0.2s ease;
+  transition: all 0.25s ease;
 }
+
 
 .suggestion-item:hover {
-  background-color: var(--accent-color);
-  /* color: white; */
+  /* outline: 3px solid red !important; */
+   background: var(--suggestion-bg-hover) !important;:
+   
 }
 
-.container{
-  /* border:2px solid red; */
-  height:100vh;
-}
 
-.darkIcon {
-  color: #222; /* black moon for light mode */
-}
-
-.lightIcon {
-  color: #f8af06ff; /* soft yellow sun for dark mode */
-}
-
-/* Recipe Grid */
+/* ================================
+   🍽️ Recipe Grid
+================================= */
 #recipe-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  display: flex;
+  /* border:2px solid red; */
+  flex-direction:row;
+  flex-wrap:wrap;
   gap: 20px;
-  justify-items: center;
+  justify-content: center;
+  items-content:center;
+  flex:felx-start;
   padding: 20px;
-
 }
 
 .recipe-card {
-  background: white;
+  background: var(--card-bg);
+  color: var(--text-color);
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   overflow: hidden;
   text-align: center;
-  width: 280px;
+  width: 380px;
+  padding-bottom:20px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -110,119 +159,89 @@ footer {
   object-fit: cover;
 }
 
-.recipe-card a {
-  display: inline-block;
-  margin: 10px 0 15px;
-  background: #f9b108ff; 
-  color: black;     
-  padding: 8px 16px;
-  border-radius: 8px;
-  text-decoration: none;
-  transition: 
-    transform 0.35s cubic-bezier(0.25, 1, 0.3, 1),
-    box-shadow 0.35s ease,
-    background 0.3s ease;
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-  #search-input {
-    width: 90%;
-  }
-}
-
-:root {
-  --bg-color: linear-gradient(to bottom right, #fffbe8, #ffeec2);
-  --text-color: #222;
-  --card-bg: #ffffff;
-  --accent-color: #fdebc5ff;
-}
-
-[data-theme="dark"] {
-  --bg-color: linear-gradient(145deg, #06011fff 0%, #01101bff 100%);
-  --text-color: #f8f8f8;
-  --card-bg: #232436ff;
-  --accent-color: #434445ff;
-}
-
-/* Apply variables throughout */
-
-body {
-  background: var(--bg-color);
-  color: var(--text-color);
-  transition: background 0.3s ease, color 0.3s ease;
-}
+/* ================================
+   🔗 Recipe Links
+================================= */
 .recipe-link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px; /* space between text and icon */
-  background: var(--accent-color);
-  color: #fff;
+  gap: 6px;
+  background: var(--tag-bg);
+  color: var(--primary-color);
   padding: 10px 18px;
   border-radius: 10px;
   text-decoration: none;
   font-weight: 500;
   letter-spacing: 0.3px;
+  border: 1px solid var(--tag-bg);
   transition: background 0.3s ease, transform 0.2s ease;
 }
 
-.recipe-link i {
-  font-size: 14px;
-}
 
 .recipe-link:hover {
-  background: #ff7a1a;
+  background: var(--tag-hover);
+  color:black;
   transform: translateY(-2px);
 }
 
-[data-theme="dark"] .recipe-link {
-  background: #ffb347;
-  color: #1a1a1a;
+.link-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
 }
 
-[data-theme="dark"] .recipe-link:hover {
-  background: #ffd27f;
+.secondary-link {
+  background: var(--tag-bg);
+  /* border: 1px solid var(--tag-hover); */
+  color: var(--primary-color);
+  padding: 8px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
 }
 
-.recipe-card {
-  background: var(--card-bg);
+
+.secondary-link:hover {
+   background: var(--tag-hover);
+  color: #000;
+  transform: translateY(-2px);
+}
+
+/* ================================
+   🏷️ Recent Search Tags
+================================= */
+.search-tag{
+  display: inline-block;
+  background-color: var(--tag-bg);
   color: var(--text-color);
+  padding: 5px 10px;
+  border-radius: 8px;
+  margin: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
 }
 
-[data-theme="dark"] .recipe-card a {
-  background: #f9b508ff; 
-  color: black;    
+.search-tag:hover {
+  transform: scale(1.05);
+  background-color: var(--tag-hover);
+  color: black;
 }
 
-
-[data-theme="dark"] .recipe-card  {
-  background: #222428ff;
-  color: white;     
-}
-
-
-[data-theme="dark"] .recipe-card a:hover {
-  /* background: #cb9227ff; */
-    background: linear-gradient(135deg, #ffb347, #ffd27f);
-}
-
-.recipe-card a:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-
-}
-
-
+/* ================================
+   🌗 Theme Button
+================================= */
 .theme-btn {
   border: none;
-  /* background: var(--accent-color); */
-  /* color: #fff; */
   font-size: 16px;
   border-radius: 20px;
   padding: 8px 10px;
   cursor: pointer;
-  transition: transform 0.2s ease, background 0.3s ease;
+  transition: transform 0.2s ease;
+  background: none;
 }
 
 .theme-btn:hover {
@@ -234,30 +253,33 @@ body {
   transition: color 0.3s ease, transform 0.3s ease;
 }
 
-.header-top{
+.darkIcon {
+  color: #222;
+}
+
+.lightIcon {
+  color: #f8af06ff;
+}
+
+/* ================================
+   💡 Header Layout
+================================= */
+.header-top {
   display: flex;
   justify-content: flex-end;
   padding-right: 20px;
 }
 
-.recent-searches{
-  border:2px solid red;
-  margin:10px 0px
+/* ================================
+   📱 Responsive
+================================= */
+@media (max-width: 600px) {
+  #search-input {
+    width: 90%;
+  }
 }
 
-.search-tag {
-  display: inline-block;
-  background-color: var(--accent-color);
-  color: white;
-  padding: 5px 10px;
-  border-radius: 8px;
-  margin: 5px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.search-tag:hover {
-  transform: scale(1.05);
-  background-color: #ff7a1a;
+h1, h3 {
+  color: var(--secondary-color);
+  transition: color 0.3s ease;
 }

@@ -93,7 +93,7 @@ function showSuggestions(meals) {
   meals.slice(0, 5).forEach((meal) => {
     const div = document.createElement("div");
     div.textContent = meal.strMeal;
-    div.classList.add("suggestion-item");
+    div.classList.add("suggestion-item"); //Show live results as the user types
 
     div.addEventListener("click", () => {
       input.value = meal.strMeal;
@@ -121,23 +121,39 @@ async function searchRecipes(query) {
 }
 
 // 7️ Render recipe cards dynamically
+//The renderRecipes() function dynamically builds recipe cards based on the fetched meal data. It first clears any previous results, then loops through the meal array, creating a new <div> element for each one. Each card includes the recipe image, name, category, and a link to view the full recipe. Finally, it appends these cards to the recipe container, updating the DOM in real-time. This makes the interface fully dynamic without reloading the page.
 function renderRecipes(meals) {
+  //Before showing new search results, it removes the old ones to avoid duplicates.
   recipeContainer.innerHTML = "";
+  // meals is an array (from the API).Each meal is an object
   meals.forEach((meal) => {
     const card = document.createElement("div");
+    //Creates a brand-new <div> for one recipe card. Adds a CSS class for styling (rounded corners, shadows, etc.).
     card.classList.add("recipe-card");
 
-    card.innerHTML = `
-      <img src="${meal.strMealThumb}" alt="${meal.strMeal}" loading="lazy">
-      <h3>${meal.strMeal}</h3>
-      <p>${meal.strCategory || "Unknown Category"}</p>
-      <a href="${meal.strSource || meal.strYoutube}" 
-         target="_blank" 
-         class="recipe-link">
-         View Recipe <i class="fa-solid fa-up-right-from-square"></i>
-      </a>
-    `;
+card.innerHTML = `
+  <img src="${meal.strMealThumb}" alt="${meal.strMeal}" loading="lazy">
+  <h3>${meal.strMeal}</h3>
+  <p>${meal.strCategory || "Unknown Category"}</p>
+  
+  <div class="link-group">
+    <a href="${meal.strSource}" 
+       target="_blank" 
+       class="recipe-link">
+       View Recipe <i class="fa-solid fa-up-right-from-square"></i>
+    </a>
 
+    ${
+      meal.strYoutube
+        ? `<a href="${meal.strYoutube}" target="_blank" class="recipe-link secondary-link">
+             Watch Video <i class="fa-brands fa-youtube"></i>
+           </a>`
+        : ""
+    }
+  </div>
+`;
+
+    //Finally, adds the new <div> card inside the main container in the DOM. Repeats for every meal in the array
     recipeContainer.appendChild(card);
   });
 }
@@ -145,20 +161,20 @@ function renderRecipes(meals) {
 // 8️ Save search term → localStorage + update UI
 function saveRecentSearch(term) {
   if (!term) {
-    console.log("No term provided, exiting function.");
+    // console.log("No term provided, exiting function.");
     return;
   }
 
   let searches = JSON.parse(localStorage.getItem("recentSearches")) || [];
-  console.log(" Before update:", searches);
+  // console.log(" Before update:", searches);
 
   // Remove duplicates
   searches = searches.filter(item => item.toLowerCase() !== term.toLowerCase());
-  console.log(" After removing duplicates:", searches);
+  // console.log(" After removing duplicates:", searches);
 
   // Add new term at start
   searches.unshift(term);
-  console.log(" After adding new term:", searches);
+  // console.log(" After adding new term:", searches);
 
   // Keep only 5
   if (searches.length > 5) searches.pop();
@@ -166,7 +182,7 @@ function saveRecentSearch(term) {
 
   // Save to localStorage
   localStorage.setItem("recentSearches", JSON.stringify(searches));
-  console.log(" Saved to localStorage:", JSON.parse(localStorage.getItem("recentSearches")));
+  // console.log(" Saved to localStorage:", JSON.parse(localStorage.getItem("recentSearches")));
 
   renderRecentSearches(); //  refresh visible tags
 }
