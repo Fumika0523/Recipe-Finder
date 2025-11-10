@@ -121,7 +121,8 @@ async function searchRecipes(query) {
 }
 
 // 7️ Render recipe cards dynamically
-//The renderRecipes() function dynamically builds recipe cards based on the fetched meal data. It first clears any previous results, then loops through the meal array, creating a new <div> element for each one. Each card includes the recipe image, name, category, and a link to view the full recipe. Finally, it appends these cards to the recipe container, updating the DOM in real-time. This makes the interface fully dynamic without reloading the page.
+// The renderRecipes() function dynamically builds recipe cards based on the fetched meal data. It first clears any previous results, then loops through the meal array, creating a new <div> element for each one. Each card includes the recipe image, name, category, and a link to view the full recipe. Finally, it appends these cards to the recipe container, updating the DOM in real-time. This makes the interface fully dynamic without reloading the page.
+
 function renderRecipes(meals) {
   //Before showing new search results, it removes the old ones to avoid duplicates.
   recipeContainer.innerHTML = "";
@@ -131,32 +132,66 @@ function renderRecipes(meals) {
     //Creates a brand-new <div> for one recipe card. Adds a CSS class for styling (rounded corners, shadows, etc.).
     card.classList.add("recipe-card");
 
-card.innerHTML = `
-  <img src="${meal.strMealThumb}" alt="${meal.strMeal}" loading="lazy">
-  <h3>${meal.strMeal}</h3>
-  <p>${meal.strCategory || "Unknown Category"}</p>
-  
-  <div class="link-group">
-    <a href="${meal.strSource}" 
-       target="_blank" 
-       class="recipe-link">
-       View Recipe <i class="fa-solid fa-up-right-from-square"></i>
-    </a>
+    // Create the image separately
+    const img = document.createElement("img");
+    img.dataset.src = meal.strMealThumb;    // store real URL
+    img.alt = meal.strMeal;
+    //Lazy loading keeps the initial page light and speeds up rendering by loading images only as needed.
+    img.loading = "lazy";
 
-    ${
-      meal.strYoutube
-        ? `<a href="${meal.strYoutube}" target="_blank" class="recipe-link secondary-link">
-             Watch Video <i class="fa-brands fa-youtube"></i>
-           </a>`
-        : ""
+      // load image only when visible
+      //The observer triggers when an image enters the viewport, not when it finishes loading.
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          img.src = img.dataset.src;
+          img.onload = () => img.classList.add("loaded");
+          obs.unobserve(img);
+        }
+      });
+    });
+    observer.observe(img);
+    card.appendChild(img);
+
+
+    // === TITLE ===
+    const title = document.createElement("h3");
+    title.textContent = meal.strMeal;
+    card.appendChild(title);
+
+    // === CATEGORY ===
+    const category = document.createElement("p");
+    category.textContent = meal.strCategory || "Unknown Category";
+    card.appendChild(category);
+
+    // === LINK GROUP ===
+    const linkGroup = document.createElement("div");
+    linkGroup.classList.add("link-group");
+
+    // Recipe link
+    const recipeLink = document.createElement("a");
+    recipeLink.href = meal.strSource;
+    recipeLink.target = "_blank";
+    recipeLink.classList.add("recipe-link");
+    recipeLink.innerHTML = `View Recipe <i class="fa-solid fa-up-right-from-square"></i>`;
+    linkGroup.appendChild(recipeLink);
+
+    // YouTube link
+    if (meal.strYoutube) {
+      const youtubeLink = document.createElement("a");
+      youtubeLink.href = meal.strYoutube;
+      youtubeLink.target = "_blank";
+      youtubeLink.classList.add("recipe-link", "secondary-link");
+      youtubeLink.innerHTML = `Watch Video <i class="fa-brands fa-youtube"></i>`;
+      linkGroup.appendChild(youtubeLink);
     }
-  </div>
-`;
+
+    card.appendChild(linkGroup);
 
     //Finally, adds the new <div> card inside the main container in the DOM. Repeats for every meal in the array
     recipeContainer.appendChild(card);
   });
-}
+  }
 
 // 8️ Save search term → localStorage + update UI
 function saveRecentSearch(term) {
@@ -214,10 +249,10 @@ function renderRecentSearches() {
   });
 }
 
-// 🔟 Load saved tags on startup
+// 10 Load saved tags on startup
 renderRecentSearches();
 
-/*  Simplified Modern Version (commented for future reference)
+/* Simplified Modern Version (commented for future reference)
 
 function saveRecentSearch(term) {
   if (!term?.trim()) return;

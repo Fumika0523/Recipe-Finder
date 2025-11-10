@@ -1,0 +1,6 @@
+----------------------------------
+
+
+When the user types, the keyup event triggers a debounced handler to avoid multiple API calls. After 300ms of no typing, it fetches matching recipes from TheMealDB API. The showSuggestions function dynamically renders up to five clickable suggestions under the input box. Clicking one updates the input field, clears the dropdown, and triggers searchRecipes to display full results. This approach improves both performance and UX using vanilla JavaScript
+
+-----------

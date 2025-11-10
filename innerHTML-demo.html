@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>innerHTML vs appendChild Demo</title>
+  <style>
+    .card {
+      border: 2px solid gray;
+      padding: 10px;
+      width: 250px;
+      margin: 10px;
+    }
+    .container {
+      display: flex;
+      gap: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h2>🔍 innerHTML vs appendChild Demo</h2>
+  <div class="container">
+    <div id="broken" class="card">
+      <h4>❌ Broken (innerHTML +=)</h4>
+    </div>
+
+    <div id="fixed" class="card">
+      <h4>✅ Fixed (appendChild only)</h4>
+    </div>
+  </div>
+
+  <button id="runDemo">Run Demo</button>
+
+  <script>
+    const broken = document.getElementById("broken");
+    const fixed = document.getElementById("fixed");
+    const btn = document.getElementById("runDemo");
+
+    btn.addEventListener("click", () => {
+      console.clear();
+
+      // STEP 1️⃣ Create an image
+      const img1 = document.createElement("img");
+      img1.src = "https://via.placeholder.com/200x100?text=Image";
+      img1.alt = "Demo Image";
+      broken.appendChild(img1);
+
+      console.log("🔹 Added image to BROKEN card");
+
+      // STEP 2️⃣ Now use innerHTML += (replaces DOM)
+      broken.innerHTML += "<p>Text added with innerHTML +=</p>";
+      console.log("⚠️ BROKEN card content:", broken.innerHTML);
+
+      // STEP 3️⃣ Fixed example
+      const img2 = document.createElement("img");
+      img2.src = "https://via.placeholder.com/200x100?text=Image";
+      img2.alt = "Demo Image";
+      fixed.appendChild(img2);
+
+      const p = document.createElement("p");
+      p.textContent = "Text added with appendChild() ✅";
+      fixed.appendChild(p);
+      console.log("✅ FIXED card content:", fixed.innerHTML);
+    });
+  </script>
+</body>
+</html>
+
+
+<!-- Problem: Without lazy loading, all recipe images load immediately — even if they’re off-screen. That slows down the page.
+
+Solution: Use an IntersectionObserver to detect when an image enters the viewport and load it then. -->
