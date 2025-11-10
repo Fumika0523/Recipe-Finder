@@ -222,22 +222,41 @@ function saveRecentSearch(term) {
   renderRecentSearches(); //  refresh visible tags
 }
 
+// 
+function deleteSearchTag(term){
+  let searches = JSON.parse(localStorage.getItem("recentSearches")) || [];
+  searches = searches.filter(item => item.toLowerCase() !== term.toLowerCase());
+  localStorage.setItem("recentSearches", JSON.stringify(searches));
+  renderRecentSearches();
+}
+
 // 9️ Render recent search tags
 function renderRecentSearches() {
-  const recentContainer = document.getElementById("recent-searches");
-  const searches = JSON.parse(localStorage.getItem("recentSearches")) || [];
+  const recentContainer = document.getElementById("recent-searches"); // finds the <div id="recent-searches"> element with tags appear
+  const searches = JSON.parse(localStorage.getItem("recentSearches")) || []; // Reads and parses the saved searches from localStorage. if none exist, uses an empty array.
 
-  recentContainer.innerHTML = "";
+  recentContainer.innerHTML = ""; //Clears any previous tags before rendering new ones (avoids duplication).
 
   if (searches.length === 0) {
     recentContainer.innerHTML = "<p style='color:gray; font-size:14px;'>No recent searches yet.</p>";
     return;
   }
 
-  searches.forEach(term => {
+  searches.forEach(term => { //Loops through each saved search term.
     const tag = document.createElement("span");
     tag.textContent = term;
     tag.classList.add("search-tag");
+
+     // inner text + close icon
+    tag.innerHTML = `
+      ${term} <i class="fa-solid fa-xmark delete-icon" ></i>
+    `;
+
+    // Click -> re-search
+    tag.querySelector(".delete-icon").addEventListener("click",(e)=>{
+      e.stopPropagation(); // stop re-search trigger ,Stops the click from also triggering the re-search event. (Without this, clicking the ❌ would re-search the same term.)
+      deleteSearchTag(term)
+    })
 
     // Click → re-search
     tag.addEventListener("click", () => {
