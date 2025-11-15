@@ -35,31 +35,33 @@
 /* ================================
    🌸 Global Styles
 ================================= */
-.container {
-height:100vh;
-/* border:2px solid red; */
-overflowY:hidden;
-}
-
 body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
-  /* border:2px solid blue; */
   padding: 0;
   background: var(--bg-color);
   color: var(--text-color);
   transition: background 0.3s ease, color 0.3s ease;
 }
 
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  overflow-y: auto;
+}
+
 header, footer {
   text-align: center;
-  /* border:2px solid blue; */
-  /* margin: 20px 0; */
 }
 
 footer {
-  margin-top: 40px;
-  position: static;
+  padding: 20px 0;
+  margin-top: auto;
 }
 
 /* ================================
